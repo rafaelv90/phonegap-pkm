@@ -26,14 +26,43 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        this.onDeviceReady();
+        document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        app.addPokemon(app.pickAPokemon());  
+    },
+
+    addPokemon: function(pokemonNumber) {
+        var img = new Image();
         
+        img.width = 150;
+        img.id = 'imagem';
+        
+        // Local
+        img.src = 'img/pokemons/'+pokemonNumber.lpad("0", 3)+'.png';
+
+        app.hidePokemon(img);
+    },
+
+    hidePokemon: function(img) {
+        Pixastic.process(img, "brightness", {brightness:-150} , function(processedImage) {
+            $('#pokemon').html(processedImage);
+        });        
+    },
+
+    revealPokemon: function() {
+        Pixastic.revert($('#pokemon #imagem').get(0));
+    },
+
+    showNextButton: function() {
+        $('#next').show();
+    },
+
+    pickAPokemon: function () {
         String.prototype.lpad = function(padString, length) {
             var str = this;
             while (str.length < length)
@@ -50,49 +79,23 @@ var app = {
         // 650 - 718  / Kahlos
         var maxNumber = 649;
 
-        var pokemonNumber = (1 + Math.floor(Math.random() * maxNumber)).toString();
-        var img = new Image();
-        
-        img.width = 119;
-        img.id = 'imagem';
-        img.crossOrigin = "Anonymous";
-        
-        // Local
-        img.src = 'img/pokemons/'+pokemonNumber.lpad("0", 3)+'.png';
+        var pokemonNumber = (1 + Math.floor(Math.random() * maxNumber)).toString();      
 
-        // Pokémon CDN
-        //http://assets10.pokemon.com/static2/_ui/img/pokedex/full/002.png
-        //var pokemonCdn = (1 + Math.floor(Math.random() * 20)).toString();
-        
-        //img.crossOrigin = '';
-        //img.src = 'http://assets'+pokemonCdn+'.pokemon.com/static2/_ui/img/pokedex/full/'+pokemonNumber.lpad("0", 3)+'.png';
-
-        this.hideImage(img);
-    },
-
-    hideImage: function(img) {
-        Pixastic.process(img, "brightness", {brightness:-150} , function(processedImage) {
-            $('#pokemon').html(processedImage);
-        });        
-    },
-
-    showImage: function() {
-        Pixastic.revert($('#pokemon #imagem').get(0));
-    },
-
-    showNextButton: function() {
-        $('#next').show();
-        $('#next').on('click', function(){
-            location.reload();
-        });
-    },
+        return pokemonNumber;
+    }
 };
 
 
 $(function() {
   $('#reveal').on('click', function(){
     $(this).hide();
-    app.showImage();
+    app.revealPokemon();
     app.showNextButton();
+  });
+
+  $('#next').on('click', function(){
+      app.addPokemon(app.pickAPokemon());  
+      $(this).hide();
+      $('#reveal').show();
   });
 });
