@@ -53,9 +53,19 @@ var app = {
         var pokemonNumber = (1 + Math.floor(Math.random() * maxNumber)).toString();
         var img = new Image();
         
-        img.width = 300;
+        img.width = 119;
         img.id = 'imagem';
+        img.crossOrigin = "Anonymous";
+        
+        // Local
         img.src = 'img/pokemons/'+pokemonNumber.lpad("0", 3)+'.png';
+
+        // Pokémon CDN
+        //http://assets10.pokemon.com/static2/_ui/img/pokedex/full/002.png
+        //var pokemonCdn = (1 + Math.floor(Math.random() * 20)).toString();
+        
+        //img.crossOrigin = '';
+        //img.src = 'http://assets'+pokemonCdn+'.pokemon.com/static2/_ui/img/pokedex/full/'+pokemonNumber.lpad("0", 3)+'.png';
 
         this.hideImage(img);
     },
