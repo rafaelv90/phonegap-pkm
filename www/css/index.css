@@ -60,6 +60,14 @@ body {
 
 /* Custom */
 
+#pokemon{
+    margin: 20px auto;
+    background: #FFF;
+    width: 119px;
+    padding: 40px;
+    border-bottom: 2px solid #DDD;
+}
+
 .button {
     display: block;
     text-decoration: none;
