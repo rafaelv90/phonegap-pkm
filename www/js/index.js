@@ -48,7 +48,7 @@ var app = {
         // 387 - 493  / Sinnoh
         // 494 - 649  / Unova
         // 650 - 718  / Kahlos
-        var maxNumber = 718;
+        var maxNumber = 649;
 
         var pokemonNumber = (1 + Math.floor(Math.random() * maxNumber)).toString();
         var img = new Image();
